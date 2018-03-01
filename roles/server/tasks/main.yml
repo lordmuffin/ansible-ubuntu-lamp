@@ -8,6 +8,7 @@
     - php-mysql
     - php
     - python-mysqldb
+    - unzip
 
 - name: Update and upgrade apt packages
   become: true

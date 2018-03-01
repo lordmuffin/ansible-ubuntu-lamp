@@ -1,0 +1,41 @@
+---
+
+- name: Install vsftpd
+  apt: name={{ item }} state=present
+  with_items:
+    - vsftpd
+
+- name: Creating users vsftpd without admin access
+  user:
+    name: vsftpd
+    password: "{{ vsftpdpass | password_hash('sha512') }}"
+
+- name: Firewall Rules
+  ufw:
+    rule: allow
+    port: 20
+    proto: tcp
+
+- name: Firewall Rules
+  ufw:
+    rule: allow
+    port: 21
+    proto: tcp
+
+- name: Firewall Rules
+  ufw:
+    rule: allow
+    port: 990
+    proto: tcp
+
+- name: Firewall Rules
+  ufw:
+    rule: allow
+    from_port: 40000
+    to_port: 50000
+    proto: tcp
+
+- name: restart vsftpd
+  service:
+    name: vsftpd
+    state: restarted

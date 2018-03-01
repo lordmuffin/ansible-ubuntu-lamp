@@ -13,19 +13,6 @@
     copy: no
   become: true
 
-- name: Download WP Inventory
-  get_url:
-    url: https://downloads.wordpress.org/plugin/wp-inventory-manager.zip
-    dest: /tmp/wpinventory.zip
-    validate_certs: no
-
-- name: Extract WP Inventory
-  unarchive:
-    src: /tmp/wpinventory.zip
-    dest: /var/www/wordpress/wp-content/plugins
-    copy: no
-  become: true
-
 - name: Setup nginx default config
   template:
     src: templates/default.tpl
@@ -52,7 +39,7 @@
     owner: root
     group: root
     recurse: yes
-
+    
 - name: restart nginx
   service:
     name: nginx
