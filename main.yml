@@ -1,0 +1,35 @@
+---
+- hosts: all
+  remote_user: ubuntu
+  tasks:
+
+  - name: create nginx group
+    group:
+      name: www
+      state: present
+
+  - name: create nginx user
+    user:
+      name: www
+      comment: "Nginx"
+      group: www
+
+  - name: install applications for nginx
+    apt:
+      name: "{{item}}"
+    with_items:
+      - nginx
+
+  - name: allow ufw
+    ufw:
+      rule: allow
+      name: Nginx HTTP
+  - name: Setup nginx config
+    template:
+      src: templates/nginx.conf.tpl
+      dest: /etc/nginx/nginx.conf
+
+  - name: restart nginx
+    service:
+      name: nginx
+      state: restarted
