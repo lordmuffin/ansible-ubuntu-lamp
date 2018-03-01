@@ -1,0 +1,17 @@
+- name: install base components
+  apt:
+    name: "{{item}}"
+  with_items:
+    - aptitude # Fix for the next step
+    - nginx
+    - mysql-server
+    - php-mysql
+    - php
+    - python-mysqldb
+
+- name: Update and upgrade apt packages
+  become: true
+  apt:
+    upgrade: full
+    update_cache: yes
+    cache_valid_time: 86400

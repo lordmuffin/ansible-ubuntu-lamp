@@ -1,0 +1,26 @@
+---
+- name: create nginx group
+  group:
+    name: www
+    state: present
+
+- name: create nginx user
+  user:
+    name: www
+    comment: "Nginx"
+    group: www
+
+- name: allow ufw
+  ufw:
+    rule: allow
+    name: Nginx HTTP
+
+- name: Setup nginx config
+  template:
+    src: templates/nginx.conf.tpl
+    dest: /etc/nginx/nginx.conf
+    
+- name: restart nginx
+  service:
+    name: nginx
+    state: restarted
